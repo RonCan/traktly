@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TrendingMovies} from '../../typings/trakt';
 
 @Component({
   selector: 'app-scrollmedia',
@@ -12,10 +11,6 @@ export class ScrollmediaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
-
-  iOf(movie) {
-    return typeof movie;
   }
 
 }

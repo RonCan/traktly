@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  traktEndPoint: 'https://api.trakt.tv',
+  tmdbEndPoint: 'https://api.themoviedb.org/3',
+  tmdbImagePath: 'https://image.tmdb.org/t/p'
 };
 
 /*
