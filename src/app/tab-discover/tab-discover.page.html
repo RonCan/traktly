@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>tab-discover</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list-header>
+        <ion-label>Items</ion-label>
+    </ion-list-header>
+    <app-scrollmedia [images]="images" [media$]="trending$"></app-scrollmedia>
+    <ion-list-header>
+        <ion-label>Items</ion-label>
+    </ion-list-header>
+    <app-scrollmedia [images]="images" [media$]="popular$"></app-scrollmedia>
+</ion-content>
