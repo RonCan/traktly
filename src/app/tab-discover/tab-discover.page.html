@@ -8,20 +8,28 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-list-header>
-        <ion-label>Trending</ion-label>
-    </ion-list-header>
-    <app-scrollmedia [images]="images" [media$]="trending$"></app-scrollmedia>
-    <ion-list-header>
-        <ion-label>Popular</ion-label>
-    </ion-list-header>
-    <app-scrollmedia [images]="images" [media$]="popular$"></app-scrollmedia>
-    <ion-list-header>
-        <ion-label>Most Played</ion-label>
-    </ion-list-header>
-    <app-scrollmedia [images]="images" [media$]="played$"></app-scrollmedia>
-    <ion-list-header>
-        <ion-label>Most Anticipated</ion-label>
-    </ion-list-header>
-    <app-scrollmedia [images]="images" [media$]="anticipated$"></app-scrollmedia>
+    <ion-item-divider>
+        <ion-label>
+            Trending
+        </ion-label>
+    </ion-item-divider>
+    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="trending$ | async"></app-scrollmedia>
+    <ion-item-divider>
+        <ion-label>
+            Popular
+        </ion-label>
+    </ion-item-divider>
+    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="popular$ | async"></app-scrollmedia>
+    <ion-item-divider>
+        <ion-label>
+            Most Played
+        </ion-label>
+    </ion-item-divider>
+    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="played$ | async"></app-scrollmedia>
+    <ion-item-divider>
+        <ion-label>
+            Most Anticipated
+        </ion-label>
+    </ion-item-divider>
+    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="anticipated$ | async"></app-scrollmedia>
 </ion-content>

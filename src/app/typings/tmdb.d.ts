@@ -47,3 +47,26 @@ export interface TMDBMovie {
     vote_average: number;
     vote_count: number;
 }
+
+export interface TMDBCredits {
+    id: number;
+    cast: [{
+        cast_id: number;
+        character: string;
+        credit_id: string;
+        gender: number | null;
+        id: number;
+        name: string;
+        order: string;
+        profile_path: string | null;
+    }];
+    crew: [{
+        credit_id: string;
+        department: string;
+        gender: number | null;
+        id: number | null;
+        job: string;
+        name: string;
+        profile_path: string | null;
+    }];
+}

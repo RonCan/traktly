@@ -8,8 +8,10 @@
 }
 .container {
   position: relative;
+  cursor: pointer;
+  user-select: none;
 }
-.movie-titles {
+.item-titles {
   width: 100px;
   white-space: normal;
   text-align: center;

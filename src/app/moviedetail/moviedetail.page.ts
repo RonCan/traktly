@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../services/data.service';
 import {BehaviorSubject} from 'rxjs';
-import {TMDBMovie} from '../typings/tmdb';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {TMDBCredits, TMDBMovie} from '../typings/tmdb';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {map, switchMap} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Component({
     selector: 'app-moviedetail',
@@ -13,18 +14,23 @@ import {switchMap} from 'rxjs/operators';
 export class MoviedetailPage implements OnInit {
     detail$ = new BehaviorSubject<TMDBMovie>(null);
     defaultHref = '';
+    tmdbImagePath = environment.tmdbImagePath;
+    id: number;
+    credits$ = new BehaviorSubject<TMDBCredits>(null);
+
     constructor(
-        private data: DataService,
-        private route: ActivatedRoute,
-        private router: Router
+        public data: DataService,
+        private route: ActivatedRoute
     ) {
     }
 
     ngOnInit() {
-        this.detail$ = <BehaviorSubject<TMDBMovie>>this.route.paramMap.pipe(
-            switchMap((params: ParamMap) =>
-                this.data.getMovieAt(parseInt(params.get('id')))
-            )
+        this.route.paramMap.subscribe((params: ParamMap) => {
+                    this.id = parseInt(params.get('id'));
+                    console.log(this.id);
+                    this.credits$ = <BehaviorSubject<TMDBCredits>>this.data.getCredits(this.id);
+                    this.detail$ = <BehaviorSubject<TMDBMovie>>this.data.getMovieAt(this.id);
+                }
         );
     }
 

@@ -10,12 +10,12 @@ import {environment} from '../../environments/environment';
     providedIn: 'root'
 })
 export class DataService {
-    private secrets$ = new BehaviorSubject<Secrets>({});
+    public secrets$ = new BehaviorSubject<Secrets>(null);
     private traktEndPoint = environment.traktEndPoint;
     private tmdbEndPoint = environment.tmdbEndPoint;
     private tmdbImagePath = environment.tmdbImagePath;
+    preloaderGif = 'assets/preloader.gif';
     constructor(private http: HttpClient) {
-        http.get('secrets.json').subscribe(this.secrets$);
     }
 
     getMoviesAt(path: string) {
@@ -37,5 +37,16 @@ export class DataService {
                 map((images: TMDBImageResult) => images),
                 map(({posters}) => `${this.tmdbImagePath}/w92${posters[0].file_path}`)
             );
+    }
+
+    getCredits(tmdbId: number) {
+        return this.http.get(`${this.tmdbEndPoint}/movie/${tmdbId}/credits?api_key=${this.secrets$.value.tmdb_key}`);
+    }
+    getSecrets() {
+        if (this.secrets$.value) {
+            return this.secrets$;
+        } else {
+            return this.http.get('secrets.json');
+        }
     }
 }

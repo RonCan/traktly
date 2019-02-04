@@ -6,17 +6,12 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./scrollmedia.component.scss']
 })
 export class ScrollmediaComponent implements OnInit {
-  @Input() media$;
-  @Input() images;
-  imageLoaded = {};
+  @Input() items;
+  @Input() images$;
+  @Input() preloaderGif;
   constructor() { }
 
   ngOnInit() {
-  }
-
-  imageLoad(id) {
-    this.imageLoaded[id] = true;
-    console.log(`id ${id} loaded`);
   }
 
 }

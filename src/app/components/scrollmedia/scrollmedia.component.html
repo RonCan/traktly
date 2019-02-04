@@ -1,9 +1,18 @@
+<!--TODO Refactor this component-->
 <div fxLayout="row" fxLayoutGap="20px" class="horizontal">
-  <div class="ion-activatable container" [routerLink]="'/tabs/discover/movie/'+ (movie.movie? movie.movie.ids.tmdb: movie.ids.tmdb)" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let movie of media$ | async">
+  <div class="ion-activatable container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let item of items">
     <ion-ripple-effect></ion-ripple-effect>
-    <ion-img class="poster" [src]="(images[movie.movie? movie.movie.ids.tmdb: movie.ids.tmdb] | async) || 'assets/preloader.gif'"></ion-img>
-    <div class="movie-titles">
-      {{movie.movie? movie.movie.title: movie.title}}
+    <div *ngIf="item.movie || item.title" [routerLink]="'/tabs/discover/movie/'+ (item.movie? item.movie.ids.tmdb: item.ids.tmdb)">
+      <ion-img class="poster" [src]="(images$[item.movie? item.movie.ids.tmdb: item.ids.tmdb] | async) || preloaderGif"></ion-img>
+      <div class="item-titles">
+        {{item.movie? item.movie.title: item.title}}
+      </div>
+    </div>
+    <div *ngIf="item.name">
+      <ion-img class="poster" [src]="preloaderGif"></ion-img>
+      <div class="item-titles">
+        {{item.name}}
+      </div>
     </div>
   </div>
 </div>
