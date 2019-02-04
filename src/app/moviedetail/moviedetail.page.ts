@@ -11,8 +11,8 @@ import {switchMap} from 'rxjs/operators';
     styleUrls: ['./moviedetail.page.scss'],
 })
 export class MoviedetailPage implements OnInit {
-    public detail$ = new BehaviorSubject<TMDBMovie>(null);
-
+    detail$ = new BehaviorSubject<TMDBMovie>(null);
+    defaultHref = '';
     constructor(
         private data: DataService,
         private route: ActivatedRoute,

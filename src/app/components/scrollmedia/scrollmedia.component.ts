@@ -8,9 +8,15 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ScrollmediaComponent implements OnInit {
   @Input() media$;
   @Input() images;
+  imageLoaded = {};
   constructor() { }
 
   ngOnInit() {
+  }
+
+  imageLoad(id) {
+    this.imageLoaded[id] = true;
+    console.log(`id ${id} loaded`);
   }
 
 }

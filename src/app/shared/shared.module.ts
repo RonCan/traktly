@@ -6,7 +6,9 @@ import {ScrollmediaComponent} from '../components/scrollmedia/scrollmedia.compon
 import {RouterModule} from '@angular/router';
 
 @NgModule({
-    declarations: [ScrollmediaComponent],
+    declarations: [
+        ScrollmediaComponent
+    ],
     imports: [
         CommonModule,
         RouterModule,

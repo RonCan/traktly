@@ -1,6 +1,9 @@
 <div *ngIf="detail$ | async as movie; else loading">
   <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
+      </ion-buttons>
       <ion-title>{{movie.original_title}}</ion-title>
     </ion-toolbar>
   </ion-header>

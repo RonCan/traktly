@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {TabsPage} from './tabs.page';
-import {MoviedetailPage} from '../moviedetail/moviedetail.page';
 
 const routes: Routes = [
     {
@@ -41,6 +40,10 @@ const routes: Routes = [
                     {
                         path: '',
                         loadChildren: '../tab-discover/tab-discover.module#TabDiscoverPageModule'
+                    },
+                    {
+                        path: 'movie/:id',
+                        loadChildren: '../moviedetail/moviedetail.module#MoviedetailPageModule'
                     }
                 ]
             },

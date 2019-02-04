@@ -1,6 +1,9 @@
 <div fxLayout="row" fxLayoutGap="20px" class="horizontal">
-  <div [routerLink]="'/movie/'+ (movie.movie? movie.movie.ids.tmdb: movie.ids.tmdb)" fxLayout="column" fxLayoutAlign="space-between center" *ngFor="let movie of media$ | async">
-    <ion-img class="poster" [src]="images[movie.movie? movie.movie.ids.tmdb: movie.ids.tmdb] | async"></ion-img>
-    {{movie.movie? movie.movie.title: movie.title}}
+  <div class="ion-activatable container" [routerLink]="'/tabs/discover/movie/'+ (movie.movie? movie.movie.ids.tmdb: movie.ids.tmdb)" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let movie of media$ | async">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-img class="poster" [src]="(images[movie.movie? movie.movie.ids.tmdb: movie.ids.tmdb] | async) || 'assets/preloader.gif'"></ion-img>
+    <div class="movie-titles">
+      {{movie.movie? movie.movie.title: movie.title}}
+    </div>
   </div>
 </div>
