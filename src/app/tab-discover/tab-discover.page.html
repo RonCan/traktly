@@ -16,4 +16,12 @@
         <ion-label>Popular</ion-label>
     </ion-list-header>
     <app-scrollmedia [images]="images" [media$]="popular$"></app-scrollmedia>
+    <ion-list-header>
+        <ion-label>Most Played</ion-label>
+    </ion-list-header>
+    <app-scrollmedia [images]="images" [media$]="played$"></app-scrollmedia>
+    <ion-list-header>
+        <ion-label>Most Anticipated</ion-label>
+    </ion-list-header>
+    <app-scrollmedia [images]="images" [media$]="anticipated$"></app-scrollmedia>
 </ion-content>

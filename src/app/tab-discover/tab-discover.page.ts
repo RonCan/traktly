@@ -12,12 +12,16 @@ import {tap} from 'rxjs/operators';
 export class TabDiscoverPage implements OnInit {
     public trending$ = new BehaviorSubject<TrendingMovies>([]);
     public popular$ = new BehaviorSubject<PopularMovies>([]);
+    public played$ = new BehaviorSubject<TrendingMovies>([]);
+    public anticipated$ = new BehaviorSubject<TrendingMovies>([]);
     public images = {};
 
     constructor(public data: DataService) {
     }
 
     ngOnInit() {
+        // TODO config needs to be loaded without this timeout hack
+        // TODO this code needs to be refactored
         setTimeout(() => {
             this.data.getMoviesAt('trending').pipe(
                 tap((movies: TrendingMovies) => {
@@ -33,6 +37,28 @@ export class TabDiscoverPage implements OnInit {
                     });
                 })
             ).subscribe(this.popular$);
+            this.initPlayed();
+            this.initAnticipated();
         }, 250);
+    }
+
+    initPlayed() {
+        this.data.getMoviesAt('played/monthly').pipe(
+            tap((movies: TrendingMovies) => {
+                movies.forEach(({movie: {ids: {tmdb}}}) => {
+                    this.images[tmdb] = this.data.getImage(tmdb);
+                });
+            })
+        ).subscribe(this.played$);
+    }
+
+    initAnticipated() {
+        this.data.getMoviesAt('anticipated').pipe(
+            tap((movies: TrendingMovies) => {
+                movies.forEach(({movie: {ids: {tmdb}}}) => {
+                    this.images[tmdb] = this.data.getImage(tmdb);
+                });
+            })
+        ).subscribe(this.anticipated$);
     }
 }

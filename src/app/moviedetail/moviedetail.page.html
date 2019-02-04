@@ -8,7 +8,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content style="height: 100vh" padding>
+  <ion-content style="height: 81vh" padding>
     <ion-card class="welcome-card">
       <ion-img [src]="'https://image.tmdb.org/t/p/w500'+movie.poster_path"></ion-img>
       <ion-card-header>
@@ -46,5 +46,5 @@
 </div>
 
 <ng-template #loading>
-  Loading stuff...
+  <ion-progress-bar color="primary" value="0.5"></ion-progress-bar>
 </ng-template>
