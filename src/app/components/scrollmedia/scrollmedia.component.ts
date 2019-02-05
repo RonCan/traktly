@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {DataService} from '../../services/data.service';
 
 @Component({
   selector: 'app-scrollmedia',
@@ -8,10 +9,15 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ScrollmediaComponent implements OnInit {
   @Input() items;
   @Input() images$;
+  @Input() images;
   @Input() preloaderGif;
-  constructor() { }
+  constructor(private data: DataService) { }
 
   ngOnInit() {
+  }
+
+  replaceLoadingWithActual(id: number, index) {
+    this.data.getPeopleImage(id).subscribe(url => this.images[index] = url);
   }
 
 }

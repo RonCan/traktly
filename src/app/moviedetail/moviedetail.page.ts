@@ -16,7 +16,7 @@ export class MoviedetailPage implements OnInit {
     tmdbImagePath = environment.tmdbImagePath;
     id: number;
     credits$ = new BehaviorSubject<TMDBCredits>(null);
-    images$ = {};
+    images: string[];
 
     constructor(
         public data: DataService,
@@ -29,16 +29,9 @@ export class MoviedetailPage implements OnInit {
                 this.id = parseInt(params.get('id'));
                 console.log(this.id);
                 this.data.getCredits(this.id).subscribe((credits: TMDBCredits) => {
-                    let delay = 0;
                     this.credits$.next(credits);
-                    credits.cast.forEach(member => {
-                        delay += 300;
-                        (((member1, del) => {
-                            setTimeout(() => {
-                                this.data.getPeopleImage(member.id).subscribe(url => this.images$[member.id] = url);
-                            }, del);
-                        }))(member, delay);
-                    });
+                    this.images = new Array(credits.cast.length);
+                    this.images.fill(this.data.preloaderGif, 0, credits.cast.length - 1);
                 });
                 this.detail$ = <BehaviorSubject<TMDBMovie>>this.data.getMovieAt(this.id);
             }
