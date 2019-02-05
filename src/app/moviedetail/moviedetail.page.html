@@ -49,6 +49,12 @@
             </ion-label>
         </ion-item-divider>
         <app-scrollmedia [images]="images" [items]="credits?.cast"></app-scrollmedia>
+        <ion-item-divider>
+            <ion-label>
+                More Like this
+            </ion-label>
+        </ion-item-divider>
+        <app-scrollmedia related="true" [images]="recommdendedImages" [items]="recommended$ | async"></app-scrollmedia>
         <ion-list lines="none">
             <ion-list-header>
                 <ion-label>Resources</ion-label>

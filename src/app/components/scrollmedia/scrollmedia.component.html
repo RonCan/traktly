@@ -2,10 +2,16 @@
 <div fxLayout="row" fxLayoutGap="20px" class="horizontal">
   <div class="ion-activatable container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px" *ngFor="let item of items; let i = index">
     <ion-ripple-effect></ion-ripple-effect>
-    <div *ngIf="item.movie || item.title" [routerLink]="'/tabs/discover/movie/'+ (item.movie? item.movie.ids.tmdb: item.ids.tmdb)">
+    <div *ngIf="item.movie || item.ids" [routerLink]="'/tabs/discover/movie/'+ (item.movie? item.movie.ids.tmdb: item.ids.tmdb)">
       <ion-img class="poster" [src]="images[i]"  (ionImgDidLoad)="replaceLoadingWithActual('movies', item.movie? item.movie.ids.tmdb: item.ids.tmdb, i)"></ion-img>
       <div class="item-titles">
         {{item.movie? item.movie.title: item.title}}
+      </div>
+    </div>
+    <div *ngIf="related" [routerLink]="'/tabs/discover/movie/'+ item.id">
+      <ion-img class="poster" [src]="images[i]"></ion-img>
+      <div class="item-titles">
+        {{item.title}}
       </div>
     </div>
     <div *ngIf="item.name">

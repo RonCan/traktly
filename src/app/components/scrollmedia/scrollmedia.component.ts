@@ -8,7 +8,8 @@ import {DataService} from '../../services/data.service';
 })
 export class ScrollmediaComponent implements OnInit {
   @Input() items;
-  @Input() images;
+  @Input() images: string[];
+  @Input() related: boolean;
   constructor(private data: DataService) { }
 
   ngOnInit() {

@@ -19,3 +19,6 @@ export interface TrendingMovies extends Array<TrendingMovie> {
 
 export interface PopularMovies extends Array<Movie> {
 }
+
+export interface RelatedMovies extends Array<Movie> {
+}

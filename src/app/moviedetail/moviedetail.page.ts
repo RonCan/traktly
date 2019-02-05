@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../services/data.service';
 import {BehaviorSubject} from 'rxjs';
-import {TMDBCredits, TMDBMovie} from '../typings/tmdb';
+import {TMDBCredits, TMDBMovie, TMDBMovieBrief, TMDBRecommendedMovies} from '../typings/tmdb';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {environment} from '../../environments/environment';
 import {UtilsService} from '../services/utils.service';
+import {strategy} from '@angular-devkit/core/src/experimental/jobs';
 
 @Component({
     selector: 'app-moviedetail',
@@ -13,11 +14,13 @@ import {UtilsService} from '../services/utils.service';
 })
 export class MoviedetailPage implements OnInit {
     detail$ = new BehaviorSubject<TMDBMovie>(null);
+    recommended$ = new BehaviorSubject<TMDBMovieBrief[]>(null);
     defaultHref = '';
     tmdbImagePath = environment.tmdbImagePath;
     id: number;
     credits: TMDBCredits;
     images: string[];
+    recommdendedImages: string[] = [];
 
     constructor(
         public data: DataService,
@@ -34,6 +37,10 @@ export class MoviedetailPage implements OnInit {
                     this.images = this.utils.createAndFillArray(credits.cast.length, this.data.preloaderGif);
                 });
                 this.detail$ = <BehaviorSubject<TMDBMovie>>this.data.getMovieAt(this.id);
+                this.data.getSimilarFromTMDB(this.id).subscribe(movies => {
+                    this.recommended$.next(movies.results);
+                    movies.results.forEach(movie => this.recommdendedImages.push(this.data.buildTMDBImageString('w92', movie.poster_path)));
+                });
             }
         );
     }

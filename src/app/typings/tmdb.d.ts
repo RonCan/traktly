@@ -75,3 +75,27 @@ export interface TMDBPeopleImages {
     id: number;
     profiles: [TMDBImageObject];
 }
+
+export interface TMDBMovieBrief {
+    adult: boolean;
+    backdrop_path: string;
+    genre_ids: number[];
+    id: 271110;
+    original_language: string;
+    original_title: string;
+    overview: string;
+    poster_path: string;
+    release_date: string;
+    title: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number;
+    popularity: number;
+}
+
+export interface TMDBRecommendedMovies {
+    page: number;
+    results: TMDBMovieBrief[];
+    total_pages: number;
+    total_results: number;
+}
