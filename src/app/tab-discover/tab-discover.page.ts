@@ -22,7 +22,7 @@ export class TabDiscoverPage implements OnInit {
     ngOnInit() {
         // TODO this code needs to be refactored
             this.data.getMoviesAt('trending').pipe(
-                tap((movies: TrendingMovies) => {
+                tap((movies) => {
                     movies.forEach(({movie: {ids: {tmdb}}}) => {
                         this.images$[tmdb] = this.data.getImage(tmdb);
                     });
@@ -41,7 +41,7 @@ export class TabDiscoverPage implements OnInit {
 
     initPlayed() {
         this.data.getMoviesAt('played/monthly').pipe(
-            tap((movies: TrendingMovies) => {
+            tap((movies) => {
                 movies.forEach(({movie: {ids: {tmdb}}}) => {
                     this.images$[tmdb] = this.data.getImage(tmdb);
                 });
@@ -51,7 +51,7 @@ export class TabDiscoverPage implements OnInit {
 
     initAnticipated() {
         this.data.getMoviesAt('anticipated').pipe(
-            tap((movies: TrendingMovies) => {
+            tap((movies) => {
                 movies.forEach(({movie: {ids: {tmdb}}}) => {
                     this.images$[tmdb] = this.data.getImage(tmdb);
                 });

@@ -9,7 +9,7 @@
       </div>
     </div>
     <div *ngIf="item.name">
-      <ion-img class="poster" [src]="preloaderGif"></ion-img>
+      <ion-img class="poster" [src]="(images$[item.id] | async) || preloaderGif"></ion-img>
       <div class="item-titles">
         {{item.name}}
       </div>

@@ -1,4 +1,4 @@
-export interface MoviePosterImageType {
+export interface TMDBImageObject {
     aspect_ratio: number;
     file_path: string;
     height: number;
@@ -9,7 +9,7 @@ export interface MoviePosterImageType {
 }
 
 export interface TMDBImageResult {
-    posters: [MoviePosterImageType];
+    posters: [TMDBImageObject];
 }
 
 export interface TMDBMovie {
@@ -69,4 +69,9 @@ export interface TMDBCredits {
         name: string;
         profile_path: string | null;
     }];
+}
+
+export interface TMDBPeopleImages {
+    id: number;
+    profiles: [TMDBImageObject];
 }
