@@ -3,6 +3,7 @@ import {BehaviorSubject} from 'rxjs';
 import {DataService} from '../services/data.service';
 import {PopularMovies, TrendingMovies} from '../typings/trakt';
 import {tap} from 'rxjs/operators';
+import {UtilsService} from '../services/utils.service';
 
 @Component({
     selector: 'app-tab-discover',
@@ -15,25 +16,21 @@ export class TabDiscoverPage implements OnInit {
     public played$ = new BehaviorSubject<TrendingMovies>([]);
     public anticipated$ = new BehaviorSubject<TrendingMovies>([]);
     public images$ = {};
+    public trendingDummyImages: string[];
+    public popularDummyImages: string[];
+    public playedDummyImages: string[];
+    public anticipatedDummyImages: string[];
 
-    constructor(public data: DataService) {
+    constructor(private data: DataService, private utils: UtilsService) {
     }
 
     ngOnInit() {
         // TODO this code needs to be refactored
             this.data.getMoviesAt('trending').pipe(
-                tap((movies) => {
-                    movies.forEach(({movie: {ids: {tmdb}}}) => {
-                        this.images$[tmdb] = this.data.getImage(tmdb);
-                    });
-                })
+                tap((movies) => this.trendingDummyImages = this.utils.createAndFillArray(movies.length, this.data.preloaderGif))
             ).subscribe(this.trending$);
             this.data.getMoviesAt('popular').pipe(
-                tap((movies: PopularMovies) => {
-                    movies.forEach(({ids: {tmdb}}) => {
-                        this.images$[tmdb] = this.data.getImage(tmdb);
-                    });
-                })
+                tap((movies) => this.popularDummyImages = this.utils.createAndFillArray(movies.length, this.data.preloaderGif))
             ).subscribe(this.popular$);
             this.initPlayed();
             this.initAnticipated();
@@ -41,21 +38,13 @@ export class TabDiscoverPage implements OnInit {
 
     initPlayed() {
         this.data.getMoviesAt('played/monthly').pipe(
-            tap((movies) => {
-                movies.forEach(({movie: {ids: {tmdb}}}) => {
-                    this.images$[tmdb] = this.data.getImage(tmdb);
-                });
-            })
+            tap((movies) => this.playedDummyImages = this.utils.createAndFillArray(movies.length, this.data.preloaderGif))
         ).subscribe(this.played$);
     }
 
     initAnticipated() {
         this.data.getMoviesAt('anticipated').pipe(
-            tap((movies) => {
-                movies.forEach(({movie: {ids: {tmdb}}}) => {
-                    this.images$[tmdb] = this.data.getImage(tmdb);
-                });
-            })
+            tap((movies) => this.anticipatedDummyImages = this.utils.createAndFillArray(movies.length, this.data.preloaderGif))
         ).subscribe(this.anticipated$);
     }
 }

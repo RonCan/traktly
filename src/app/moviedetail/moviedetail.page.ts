@@ -4,6 +4,7 @@ import {BehaviorSubject} from 'rxjs';
 import {TMDBCredits, TMDBMovie} from '../typings/tmdb';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {environment} from '../../environments/environment';
+import {UtilsService} from '../services/utils.service';
 
 @Component({
     selector: 'app-moviedetail',
@@ -15,23 +16,22 @@ export class MoviedetailPage implements OnInit {
     defaultHref = '';
     tmdbImagePath = environment.tmdbImagePath;
     id: number;
-    credits$ = new BehaviorSubject<TMDBCredits>(null);
+    credits: TMDBCredits;
     images: string[];
 
     constructor(
         public data: DataService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private utils: UtilsService
     ) {
     }
 
     ngOnInit() {
         this.route.paramMap.subscribe((params: ParamMap) => {
                 this.id = parseInt(params.get('id'));
-                console.log(this.id);
                 this.data.getCredits(this.id).subscribe((credits: TMDBCredits) => {
-                    this.credits$.next(credits);
-                    this.images = new Array(credits.cast.length);
-                    this.images.fill(this.data.preloaderGif, 0, credits.cast.length - 1);
+                    this.credits = credits;
+                    this.images = this.utils.createAndFillArray(credits.cast.length, this.data.preloaderGif);
                 });
                 this.detail$ = <BehaviorSubject<TMDBMovie>>this.data.getMovieAt(this.id);
             }

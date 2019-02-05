@@ -13,23 +13,23 @@
             Trending
         </ion-label>
     </ion-item-divider>
-    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="trending$ | async"></app-scrollmedia>
+    <app-scrollmedia [images]="trendingDummyImages" [items]="trending$ | async"></app-scrollmedia>
     <ion-item-divider>
         <ion-label>
             Popular
         </ion-label>
     </ion-item-divider>
-    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="popular$ | async"></app-scrollmedia>
+    <app-scrollmedia [images]="popularDummyImages" [items]="popular$ | async"></app-scrollmedia>
     <ion-item-divider>
         <ion-label>
             Most Played
         </ion-label>
     </ion-item-divider>
-    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="played$ | async"></app-scrollmedia>
+    <app-scrollmedia [images]="playedDummyImages" [items]="played$ | async"></app-scrollmedia>
     <ion-item-divider>
         <ion-label>
             Most Anticipated
         </ion-label>
     </ion-item-divider>
-    <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="anticipated$ | async"></app-scrollmedia>
+    <app-scrollmedia [images]="anticipatedDummyImages" [items]="anticipated$ | async"></app-scrollmedia>
 </ion-content>

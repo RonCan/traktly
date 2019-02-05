@@ -8,16 +8,23 @@ import {DataService} from '../../services/data.service';
 })
 export class ScrollmediaComponent implements OnInit {
   @Input() items;
-  @Input() images$;
   @Input() images;
-  @Input() preloaderGif;
   constructor(private data: DataService) { }
 
   ngOnInit() {
   }
 
-  replaceLoadingWithActual(id: number, index) {
-    this.data.getPeopleImage(id).subscribe(url => this.images[index] = url);
+  replaceLoadingWithActual(resource: 'movies' | 'people', id: number, index) {
+    switch (resource) {
+      case 'movies':
+        this.data.getImage(id).subscribe(url => this.images[index] = url);
+        break;
+      case 'people':
+        this.data.getPeopleImage(id).subscribe(url => this.images[index] = url);
+        break;
+      default:
+        return;
+    }
   }
 
 }
