@@ -48,7 +48,7 @@
                 Cast
             </ion-label>
         </ion-item-divider>
-        <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="credits.cast"></app-scrollmedia>
+        <app-scrollmedia [preloaderGif]="data.preloaderGif" [images$]="images$" [items]="(credits$ | async)?.cast"></app-scrollmedia>
         <ion-list lines="none">
             <ion-list-header>
                 <ion-label>Resources</ion-label>

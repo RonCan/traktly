@@ -3,7 +3,6 @@ import {DataService} from '../services/data.service';
 import {BehaviorSubject} from 'rxjs';
 import {TMDBCredits, TMDBMovie} from '../typings/tmdb';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 
 @Component({
@@ -16,7 +15,7 @@ export class MoviedetailPage implements OnInit {
     defaultHref = '';
     tmdbImagePath = environment.tmdbImagePath;
     id: number;
-    credits: TMDBCredits;
+    credits$ = new BehaviorSubject<TMDBCredits>(null);
     images$ = {};
 
     constructor(
@@ -30,7 +29,7 @@ export class MoviedetailPage implements OnInit {
                     this.id = parseInt(params.get('id'));
                     console.log(this.id);
                     this.data.getCredits(this.id).subscribe((credits: TMDBCredits) => {
-                        this.credits = credits;
+                        this.credits$.next(credits);
                         credits.cast.forEach(member => this.images$[member.id] = this.data.getPeopleImage(member.id));
                     });
                     this.detail$ = <BehaviorSubject<TMDBMovie>>this.data.getMovieAt(this.id);
