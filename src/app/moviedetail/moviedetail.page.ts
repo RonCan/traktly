@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../services/data.service';
 import {BehaviorSubject} from 'rxjs';
-import {TMDBCredits, TMDBMovie, TMDBMovieBrief, TMDBRecommendedMovies} from '../typings/tmdb';
+import {TMDBCredits, TMDBMovie, TMDBMovieBrief} from '../typings/tmdb';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {environment} from '../../environments/environment';
 import {UtilsService} from '../services/utils.service';
-import {strategy} from '@angular-devkit/core/src/experimental/jobs';
 
 @Component({
     selector: 'app-moviedetail',

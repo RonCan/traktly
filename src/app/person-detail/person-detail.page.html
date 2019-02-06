@@ -1,0 +1,52 @@
+<div *ngIf="detail$ | async as person; else loading">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{person.name}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="full-height" padding>
+    <ion-fab edge horizontal="end" slot="fixed" vertical="top">
+      <ion-fab-button>
+        <ion-icon name="share"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-card class="welcome-card">
+      <ion-img [src]="person.profile_path? data.buildTMDBImageString('w500', person.profile_path): data.preloaderGif"></ion-img>
+      <ion-card-header>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+          <div fxLayout="column" fxLayoutAlign="space-between center">
+            <ion-icon name="calendar" size="small"></ion-icon>
+            <ion-card-subtitle>{{(person.birthday | date:'mediumDate') || 'N/A'}}</ion-card-subtitle>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="space-between center">
+            <ion-icon name="face" size="small"></ion-icon>
+            <ion-card-subtitle> aka {{person.also_known_as.join(',')}}</ion-card-subtitle>
+          </div>
+        </div>
+        <ion-card-title>{{person.name || ''}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          {{person.biography || ''}}
+        </p>
+        <hr style="background: #737373"/>
+      </ion-card-content>
+    </ion-card>
+    <ion-item-divider>
+      <ion-label>
+        Known From
+      </ion-label>
+    </ion-item-divider>
+    <app-scrollmedia related="true" [images]="movieImages" [items]="(credits$ | async)?.cast"></app-scrollmedia>
+  </ion-content>
+</div>
+
+<ng-template #loading>
+  <ion-content>
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </ion-content>
+</ng-template>

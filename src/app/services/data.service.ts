@@ -1,7 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {catchError, delayWhen, map, retryWhen, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {TMDBCredits, TMDBImageResult, TMDBMovie, TMDBPeopleImages, TMDBRecommendedMovies} from '../typings/tmdb';
+import {
+    TMDBCredits,
+    TMDBImageResult,
+    TMDBMovie,
+    TMDBPeopleImages,
+    TMDBPerson,
+    TMDBPersonMovieCredits,
+    TMDBRecommendedMovies
+} from '../typings/tmdb';
 import {BehaviorSubject, Observable, of, throwError, timer} from 'rxjs';
 import {Secrets} from '../typings/secrets';
 import {environment} from '../../environments/environment';
@@ -84,7 +92,27 @@ export class DataService {
         }
     }
 
-    getPeopleImage(tmdbId: number) {
+    getPersonDetail(tmdbId: number) {
+        return this.http.get<TMDBPerson>(
+            `${this.tmdbEndPoint}/person/${tmdbId}?api_key=${this.secrets$.value.tmdb_key}`
+        ).pipe(
+            shareReplay(),
+            retryWhen(this.thereWillBeErrors),
+            catchError(this.handleError) // then handle the error
+        );
+    }
+
+    getPersonCredits(tmdbId: number) {
+        return this.http.get<TMDBPersonMovieCredits>(
+            `${this.tmdbEndPoint}/person/${tmdbId}/movie_credits?api_key=${this.secrets$.value.tmdb_key}`
+        ).pipe(
+            shareReplay(),
+            retryWhen(this.thereWillBeErrors),
+            catchError(this.handleError) // then handle the error
+        );
+    }
+
+    getPersonImage(tmdbId: number) {
         return this.imageRequest(tmdbId, 'person').pipe(
             map(
                 (person: TMDBPeopleImages) => {

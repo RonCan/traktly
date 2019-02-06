@@ -10,6 +10,7 @@ export class ScrollmediaComponent implements OnInit {
   @Input() items;
   @Input() images: string[];
   @Input() related: boolean;
+  @Input() fromPeople: boolean;
   constructor(private data: DataService) { }
 
   ngOnInit() {
@@ -21,7 +22,7 @@ export class ScrollmediaComponent implements OnInit {
         this.data.getImage(id).subscribe(url => this.images[index] = url);
         break;
       case 'people':
-        this.data.getPeopleImage(id).subscribe(url => this.images[index] = url);
+        this.data.getPersonImage(id).subscribe(url => this.images[index] = url);
         break;
       default:
         return;

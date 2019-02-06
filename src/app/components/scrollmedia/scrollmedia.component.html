@@ -9,12 +9,12 @@
       </div>
     </div>
     <div *ngIf="related" [routerLink]="'/tabs/discover/movie/'+ item.id">
-      <ion-img class="poster" [src]="images[i]"></ion-img>
+      <ion-img class="poster" [src]="images[i] || 'assets/preloader.gif'"></ion-img>
       <div class="item-titles">
         {{item.title}}
       </div>
     </div>
-    <div *ngIf="item.name">
+    <div *ngIf="item.name" [routerLink]="'/tabs/discover/person/' + item.id">
       <ion-img class="poster" [src]="images[i]" (ionImgDidLoad)="replaceLoadingWithActual('people', item.id, i)"></ion-img>
       <div class="item-titles">
         {{item.name}}

@@ -30,7 +30,8 @@ const routes: Routes = [
     resolve: {
       secrets: SecretsResolver
     }
-  }
+  },
+  { path: 'person-detail', loadChildren: './person-detail/person-detail.module#PersonDetailPageModule' }
 ];
 @NgModule({
   imports: [

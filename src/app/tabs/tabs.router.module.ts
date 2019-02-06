@@ -44,6 +44,10 @@ const routes: Routes = [
                     {
                         path: 'movie/:id',
                         loadChildren: '../moviedetail/moviedetail.module#MoviedetailPageModule'
+                    },
+                    {
+                        path: 'person/:id',
+                        loadChildren: '../person-detail/person-detail.module#PersonDetailPageModule'
                     }
                 ]
             },
