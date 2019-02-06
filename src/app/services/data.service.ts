@@ -13,7 +13,7 @@ import {
 import {BehaviorSubject, Observable, of, throwError, timer} from 'rxjs';
 import {Secrets} from '../typings/secrets';
 import {environment} from '../../environments/environment';
-import {PopularMovies, TrendingMovies} from '../typings/trakt';
+import {HistoryMovies, PopularMovies, TraktTokenRequestBody, TraktTokenResponse, TrendingMovies} from '../typings/trakt';
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +28,7 @@ export class DataService {
     private traktEndPoint = environment.traktEndPoint;
     private tmdbEndPoint = environment.tmdbEndPoint;
     private tmdbImagePath = environment.tmdbImagePath;
+    private traktTokenEndpoint = environment.traktTokenEndPoint;
 
     constructor(private http: HttpClient) {
     }
@@ -90,6 +91,23 @@ export class DataService {
         } else {
             return this.http.get('secrets.json');
         }
+    }
+
+    getTraktToken(authCode: string) {
+        const body: TraktTokenRequestBody = {
+            code: authCode,
+            client_id: this.secrets$.value.trakt_key,
+            client_secret: this.secrets$.value.trakt_secret,
+            redirect_uri: environment.traktRedirectUri,
+            grant_type: 'authorization_code'
+        };
+        return this.http.post<TraktTokenResponse>(this.traktTokenEndpoint, body);
+    }
+
+    getMyWatchedMovies(token: string) {
+        this.checkAndSetTraktKeyHeader();
+        this.traktHeader = this.traktHeader.set('Authorization', `Bearer ${token}`);
+        return this.http.get<HistoryMovies>(`${this.traktEndPoint}/users/me/history/movies`, {headers: this.traktHeader});
     }
 
     getPersonDetail(tmdbId: number) {

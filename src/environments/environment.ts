@@ -6,7 +6,10 @@ export const environment = {
   production: false,
   traktEndPoint: 'https://api.trakt.tv',
   tmdbEndPoint: 'https://api.themoviedb.org/3',
-  tmdbImagePath: 'https://image.tmdb.org/t/p'
+  tmdbImagePath: 'https://image.tmdb.org/t/p',
+  traktRedirectUri: 'http://localhost:8100/tabs/movies',
+  traktOAuthEndPoint: 'https://api.trakt.tv/oauth/authorize',
+  traktTokenEndPoint: 'https://api.trakt.tv/oauth/token'
 };
 
 /*

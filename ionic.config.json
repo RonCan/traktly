@@ -1,6 +1,8 @@
 {
   "name": "traktly",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "c1ce35d2"
 }

@@ -2,7 +2,7 @@ import {Injectable, NgModule} from '@angular/core';
 import {ActivatedRouteSnapshot, PreloadAllModules, Resolve, RouterModule, RouterStateSnapshot, Routes} from '@angular/router';
 import {Secrets} from './typings/secrets';
 import {DataService} from './services/data.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Injectable()

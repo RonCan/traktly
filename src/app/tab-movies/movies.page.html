@@ -1,9 +1,19 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      My Movies
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-button *ngIf="!token" (click)="signIn()" expand="block">Sign In</ion-button>
+  <ion-virtual-scroll [items]="myMovies">
+    <ion-item *virtualItem="let item">
+      <ion-avatar item-start>
+        <ion-img [src]="images[0]"></ion-img>
+      </ion-avatar>
+      {{item.movie.title}}
+    </ion-item>
+  </ion-virtual-scroll>
+</ion-content>
