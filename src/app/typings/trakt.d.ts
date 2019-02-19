@@ -51,3 +51,46 @@ export interface TraktTokenResponse {
     scope: string;
     created_at: number;
 }
+
+export interface TraktUserSettings {
+    user: {
+        username: string;
+        private: boolean,
+        name: string;
+        vip: boolean;
+        vip_ep: boolean;
+        ids: {
+            slug: string;
+        },
+        joined_at: string;
+        location: string;
+        about: string;
+        gender: string;
+        age: number;
+        images: {
+            avatar: {
+                full: string;
+            }
+        },
+        vip_og: boolean;
+        vip_years: number;
+    };
+    account: {
+        timezone: string;
+        date_format: 'mdy' | string;
+        time_24hr: boolean;
+        cover_image: string;
+    };
+    connections: {
+        facebook: boolean;
+        twitter: boolean;
+        google: boolean;
+        tumblr: boolean;
+        medium: boolean;
+        slack: boolean;
+    };
+    sharing_text: {
+        watching: string;
+        watched: string;
+    };
+}

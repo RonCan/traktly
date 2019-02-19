@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {catchError, delayWhen, map, retryWhen, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {Storage} from '@ionic/storage';
 import {
     TMDBCredits,
     TMDBImageResult,
@@ -13,13 +14,15 @@ import {
 import {BehaviorSubject, Observable, of, throwError, timer} from 'rxjs';
 import {Secrets} from '../typings/secrets';
 import {environment} from '../../environments/environment';
-import {HistoryMovies, PopularMovies, TraktTokenRequestBody, TraktTokenResponse, TrendingMovies} from '../typings/trakt';
+import {HistoryMovies, PopularMovies, TraktTokenRequestBody, TraktTokenResponse, TraktUserSettings, TrendingMovies} from '../typings/trakt';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DataService {
     public secrets$ = new BehaviorSubject<Secrets>(null);
+    public UserInfo$ = new BehaviorSubject<TraktUserSettings>(null);
+    public traktToken$ = new BehaviorSubject<TraktTokenResponse>(null);
     preloaderGif = 'assets/preloader.gif';
     traktHeader = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -30,11 +33,11 @@ export class DataService {
     private tmdbImagePath = environment.tmdbImagePath;
     private traktTokenEndpoint = environment.traktTokenEndPoint;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private storage: Storage) {
     }
 
     getMoviesAt(path: string) {
-        this.checkAndSetTraktKeyHeader();
+        this.checkAndSetTraktHeaders();
         return this.http.get<TrendingMovies & PopularMovies>(
             `${this.traktEndPoint}/movies/${path}`, {headers: this.traktHeader}
         ).pipe(
@@ -105,7 +108,7 @@ export class DataService {
     }
 
     getMyWatchedMovies(token: string) {
-        this.checkAndSetTraktKeyHeader();
+        this.checkAndSetTraktHeaders();
         this.traktHeader = this.traktHeader.set('Authorization', `Bearer ${token}`);
         return this.http.get<HistoryMovies>(`${this.traktEndPoint}/users/me/history/movies`, {headers: this.traktHeader});
     }
@@ -150,11 +153,39 @@ export class DataService {
         );
     }
 
-    checkAndSetTraktKeyHeader() {
-        if (this.traktHeader.get('trakt-api-key')) {
+    getTraktSettings() {
+        this.storage.get('user')
+            .then(user => {
+                if (user) {
+                    this.UserInfo$.next(user);
+                    return;
+                }
+                this.storage.get('token').
+                then(token => {
+                    if (!token) {
+                        return console.error('You have not logged in');
+                    }
+                    this.traktToken$.next(token);
+                    this.checkAndSetTraktHeaders(token);
+                    this.http.get<TraktUserSettings>(`${this.traktEndPoint}/users/settings`, {headers: this.traktHeader}).subscribe(settings => {
+                        this.UserInfo$.next(settings);
+                        this.storage.set('user', settings);
+                        console.log(settings);
+                    });
+                });
+            });
+    }
+
+    checkAndSetTraktHeaders(token?: boolean) {
+        if (this.traktHeader.get('trakt-api-key') && this.traktHeader.get('Authorization')) {
             return;
         }
-        this.traktHeader = this.traktHeader.set('trakt-api-key', this.secrets$.value.trakt_key);
+        if (token && !this.traktHeader.get('Authorization')) {
+            this.traktHeader = this.traktHeader.set('Authorization', 'Bearer ' + this.traktToken$.value.access_token);
+        }
+        if (!this.traktHeader.get('trakt-api-key')) {
+            this.traktHeader = this.traktHeader.set('trakt-api-key', this.secrets$.value.trakt_key);
+        }
     }
 
     thereWillBeErrors(errors) {

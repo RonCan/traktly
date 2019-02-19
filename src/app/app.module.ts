@@ -10,17 +10,21 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import {IonicStorageModule} from '@ionic/storage';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        MainMenuComponent
     ],
     entryComponents: [],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        IonicStorageModule.forRoot()
     ],
     providers: [
         StatusBar,
